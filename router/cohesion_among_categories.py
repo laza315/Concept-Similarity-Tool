@@ -125,9 +125,18 @@ async def concept_similarity(
     first_values = list(matrix[0].values())[0]
     second_values = list(matrix[1].values())[0]
 
+    # documents_to_compare = [
+    # ["Barack_Obama", "Politics"],
+    # ["Machine_Learning", "Data_Science"]
+    # ]
+
+    # ovo mora biti trimovano jer verovatno BART model ne prepoznaje _ i zbog toga su rezultati uvek N/A za resurse koji su validni
     for i in first_values:
+        i_clean = i.replace("_", " ")  # Uklanjamo "_"
         for j in second_values:
-            lista_parova.append([i, j])
+            j_clean = j.replace("_", " ")  # Uklanjamo "_"
+            lista_parova.append([i_clean, j_clean])
+
 
     model_bart = VectorSpaceModel(lista_parova, query=None)  
     results_bart = model_bart.concept_similarity()
@@ -160,3 +169,46 @@ These exchanges were soon connected together, eventually forming an automated, w
 Hand-held mobile phones were introduced for personal service starting in 1973. In later decades, their analog cellular system evolved into digital networks with greater capability and lower cost. 
 Convergence in communication services has provided a broad spectrum of capabilities in cell phones, including mobile computing, giving rise to the smartphone, the dominant type of telephone in the world today.'''
 
+
+# Input:
+
+# matrix = [
+#     {"Barack_Obama": [
+#         "21st-century_American_politicians", 
+#         "Presidents_of_the_United_States",
+#         "Democratic_Party_presidents_of_the_United_States"
+#     ]},
+#     {"Machine_learning": [
+#         "Learning_in_computer_vision",
+#         "Semisupervised_learning",
+#         "Applied_machine_learning",
+#         "Data_mining_and_machine_learning_software",
+#         "Computational_learning_theory",
+#         "Blockmodeling"
+#     ]}
+# ]
+
+# Output:
+
+# [
+#     ["21st-century_American_politicians", "Learning_in_computer_vision"],
+#     ["21st-century_American_politicians", "Semisupervised_learning"],
+#     ["21st-century_American_politicians", "Applied_machine_learning"],
+#     ["21st-century_American_politicians", "Data_mining_and_machine_learning_software"],
+#     ["21st-century_American_politicians", "Computational_learning_theory"],
+#     ["21st-century_American_politicians", "Blockmodeling"],
+
+#     ["Presidents_of_the_United_States", "Learning_in_computer_vision"],
+#     ["Presidents_of_the_United_States", "Semisupervised_learning"],
+#     ["Presidents_of_the_United_States", "Applied_machine_learning"],
+#     ["Presidents_of_the_United_States", "Data_mining_and_machine_learning_software"],
+#     ["Presidents_of_the_United_States", "Computational_learning_theory"],
+#     ["Presidents_of_the_United_States", "Blockmodeling"],
+
+#     ["Democratic_Party_presidents_of_the_United_States", "Learning_in_computer_vision"],
+#     ["Democratic_Party_presidents_of_the_United_States", "Semisupervised_learning"],
+#     ["Democratic_Party_presidents_of_the_United_States", "Applied_machine_learning"],
+#     ["Democratic_Party_presidents_of_the_United_States", "Data_mining_and_machine_learning_software"],
+#     ["Democratic_Party_presidents_of_the_United_States", "Computational_learning_theory"],
+#     ["Democratic_Party_presidents_of_the_United_States", "Blockmodeling"]
+# ]

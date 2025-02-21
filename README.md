@@ -64,4 +64,6 @@ Activate the virtual environment:
 
 Start the FastAPI development server:
 
-    uvicorn main:app --reload
+    uvicorn main:app --reload --port=8000
+
+By using the Swagger, Postman od other API console tool, please visit http://127.0.0.1:8000/docs/ for your reference.

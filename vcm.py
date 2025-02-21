@@ -7,7 +7,6 @@ from transformers import BartTokenizer, BartForConditionalGeneration
 from sklearn.metrics.pairwise import cosine_similarity
 import torch
 
-
 nltk.download('punkt')  
 
 class VectorSpaceModel:
@@ -80,10 +79,9 @@ class VectorSpaceModel:
             output = self.model(**inputs, decoder_input_ids=inputs['input_ids'])
         
         embeddings = output.last_hidden_state.mean(dim=1) 
-        v_1 = embeddings[0].numpy()
+        v_1 = embeddings[0].numpy() 
         v_2 = embeddings[1].numpy()
         
-        # Compute cosine similarity
         cosine_score = cosine_similarity([v_1], [v_2])[0][0]
         return cosine_score
 
